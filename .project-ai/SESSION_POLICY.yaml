@@ -1,0 +1,25 @@
+﻿# Session Policy â€” Project Pack Template
+# Populated from profiles/session-policies.yaml.
+
+generated: "2026-03-15T18:09:34Z"
+policy: "enterprise"
+
+on_session_start: []
+  # Populated from selected session policy.
+  # Example:
+  # - read_project_state: required
+  # - read_governance: required
+  # - load_authority_pack: required
+
+on_session_end: []
+  # Example:
+  # - update_project_state: required
+  # - create_checkpoint: required
+
+on_task_start: []
+  # Example:
+  # - preflight_resolve: required
+
+checkpoint_frequency: "__FREQUENCY__"
+authoritative_doc_loading: "__LOADING__"
+

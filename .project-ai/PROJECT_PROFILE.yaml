@@ -1,0 +1,35 @@
+﻿generated: "2026-03-15T18:09:34Z"
+generator_version: "2.2.0"
+project_name: "enterprise-skills-site"
+
+classification:
+  archetypes: []
+  stack:
+    language: typescript
+    framework: next.js
+    database: supabase
+    auth: none
+    payments: stripe
+    services: []
+  maturity: production
+  risk_dimensions: []
+  governance_profile: enterprise
+
+commands:
+  dev: "npm run dev"
+  build: "npm run build"
+  test: "npx vitest run"
+  lint: "npx next lint"
+  typecheck: "npx tsc --noEmit"
+
+paths:
+  api_routes: "src/app/api/**/route.ts"
+  service_layer: "src/lib/"
+  components: "src/components/"
+  tests: "src/__tests__/"
+
+patterns:
+  auth_check: "__AUTH_CHECK__"
+  db_client: "__DB_CLIENT__"
+  logger: "__LOGGER__"
+  error_response: "__ERROR_SHAPE__"

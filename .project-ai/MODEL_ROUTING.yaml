@@ -1,0 +1,14 @@
+﻿# Model Routing â€” Project Pack Template
+# Populated from profiles/model-routing-profiles.yaml + adapter.
+
+generated: "2026-03-15T18:09:34Z"
+profile: "default"
+adapter: "cursor"
+
+mappings:
+  strategy: "__STRATEGY_MODEL__"
+  architecture: "__ARCHITECTURE_MODEL__"
+  implementation: "__IMPLEMENTATION_MODEL__"
+
+ambiguity_rule: "Default to strategy model when task type is unclear"
+

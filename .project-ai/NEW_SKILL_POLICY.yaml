@@ -1,0 +1,13 @@
+﻿# New Skill Creation Policy â€” Project Pack Template
+# Controls when and how new skills can be created in this project.
+
+generated: "2026-03-15T18:09:34Z"
+governance_profile: "enterprise"
+
+allow_project_local: true
+require_rationale: "__BOOL__"       # true for standard+, false for lightweight
+require_registry_check: "__BOOL__"  # true for standard+, false for lightweight
+require_decision_log: "__BOOL__"    # true for standard+, false for lightweight
+allow_canonical_creation: false     # always false â€” canonical skills come from the hub
+enforcement: "__LEVEL__"            # advisory | enforced
+

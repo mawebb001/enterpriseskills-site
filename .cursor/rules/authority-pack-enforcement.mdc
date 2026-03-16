@@ -1,0 +1,42 @@
+---
+description: Thin enforcement shim — loads .project-ai/ authority pack before any work. Prevents duplicate skills and ensures deterministic doc loading.
+alwaysApply: true
+---
+
+# Authority Pack Enforcement (Proving Ground)
+
+## On Every Message
+
+1. **Load authority pack** if not already loaded this session:
+   - Read `.project-ai/ACTIVE_SKILLS.yaml`
+   - Read `.project-ai/MODEL_ROUTING.yaml`
+   - Read `repo-role.yaml`
+
+2. **This repo is a proving ground** (`repo_role: proving`).
+   Local skills are NOT canonical. The enterprise-skills repo is the authority.
+
+## Before Creating Any New Skill
+
+You MUST check for duplicates first:
+
+1. Search `.project-ai/SKILL_REGISTRY_SNAPSHOT.yaml` for `skill_id` match
+2. Search `.project-ai/SKILL_ALIASES.yaml` for alias match
+3. Search `.project-ai/ACTIVE_SKILLS.yaml` for active skill match
+
+**If a match exists → use the existing skill. Do NOT create a new one.**
+
+If no match and creation is justified:
+- Create the candidate in `.project-ai/candidates/` (not `.cursor/skills/`)
+- Write a rationale note in `.project-ai/promotion-notes/`
+- Log the decision in `.project-ai/DECISION_LOG.md`
+
+## Before Code Changes
+
+Load docs listed in `.project-ai/AUTHORITATIVE_DOCS.yaml` under `before_code_changes`.
+
+## Promotion Reminder
+
+When you build something reusable, say:
+> "This could be promoted to enterprise-skills after sanitization."
+
+Do NOT promote directly. Flag only.

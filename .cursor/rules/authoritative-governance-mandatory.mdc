@@ -1,0 +1,73 @@
+---
+description: MANDATORY - Enforce authoritative rules before every response. Loads authority pack or governance files. Prevents forgetting governance, duplicate skill creation, and incorrect model usage.
+alwaysApply: true
+---
+
+# Authoritative Governance (MANDATORY — Every Session)
+
+**You MUST follow this on EVERY user message. No exceptions.**
+
+## 1. Authority Pack Check
+
+**Before responding to ANY user prompt:**
+
+Does `.project-ai/` exist at the project root?
+
+- **YES** → Read `.project-ai/ACTIVE_SKILLS.yaml`, `.project-ai/SESSION_POLICY.yaml`, and `.project-ai/MODEL_ROUTING.yaml`. Then read docs listed in `.project-ai/AUTHORITATIVE_DOCS.yaml` under `session_start` (if not already loaded this session). Proceed to step 2.
+- **NO** → Fall back: Read the governance file (`docs/AI_GOVERNANCE.md` or `docs/AI_RULES_GLOBAL.md`) if not already read this session. Proceed to step 2.
+
+**If neither authority pack nor governance file exists:** Alert the user. Recommend "init project skills" to generate the authority pack.
+
+## 2. Pre-Code Gate (Before Any Code or Design Work)
+
+If the user's request involves writing, changing, or designing code:
+
+**With authority pack:** Read docs listed under `before_code_changes` in `.project-ai/AUTHORITATIVE_DOCS.yaml`.
+
+**Without authority pack:** Read the required files from the governance file § Pre-Code Gate.
+
+- If any required file is missing → Alert the user. Do NOT proceed.
+
+## 3. Preflight Resolution (With Authority Pack)
+
+If `.project-ai/PREFLIGHT.yaml` exists and `enabled: true`:
+
+Before executing any task:
+- **Check skill availability:** Does a canonical skill exist for this task? Check `ACTIVE_SKILLS.yaml` and `SKILL_ALIASES.yaml`.
+- **If a matching skill exists → use it.** Do not execute ad-hoc.
+- **If creating a new skill:** Check `NEW_SKILL_POLICY.yaml` and `REGISTRY_SNAPSHOT.yaml` first. Do NOT create duplicates of canonical skills.
+
+## 4. Model Handoff Check
+
+Before doing the task, ask: **Is this Strategy or Architecture work?**
+
+**With authority pack:** Use classification rules from `.project-ai/MODEL_ROUTING.yaml`.
+
+**Without authority pack:** Use the governance file model roles.
+
+| If the task is... | You MUST... |
+|-------------------|-------------|
+| Strategy (ambiguous scope, cross-domain, platform direction) | STOP. Clarify. Propose prompt. Write handoff to checkpoint. **Tell user to switch to Strategy model.** |
+| Architecture (schema design, layer boundaries, ADRs, structural decisions) | STOP. Clarify. Propose prompt. Write handoff to checkpoint. **Tell user to switch to Architecture model.** |
+| Implementation (edits, refactors, tests, following existing patterns) | Proceed. |
+
+## 5. Tell User When to Switch
+
+When you detect Strategy or Architecture work, output explicitly:
+
+> **Switch model:** This requires [Strategy/Architecture] work. Please switch to the appropriate model and paste the prompt below.
+
+## 6. Skill Duplication Prevention
+
+**Before creating ANY new skill**, you MUST:
+1. Check `.project-ai/ACTIVE_SKILLS.yaml` for existing skill match
+2. Check `.project-ai/SKILL_ALIASES.yaml` for alias match
+3. Check `.project-ai/REGISTRY_SNAPSHOT.yaml` for canonical match
+4. If a match exists → **use the existing skill**
+5. If no authority pack → check `~/.cursor/skills/` for existing skill folders
+
+**Never create a skill that duplicates a canonical enterprise skill.**
+
+## Failure = Do Not Proceed
+
+If you cannot load the authority pack or governance files, or cannot determine task type, say so. Do not guess.

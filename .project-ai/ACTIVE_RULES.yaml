@@ -1,0 +1,12 @@
+﻿# Active Rules â€” Project Pack Template
+
+generated: "2026-03-15T18:09:34Z"
+governance_profile: "enterprise"
+
+active:
+  # Example:
+  # - rule_id: authoritative-governance-mandatory
+  #   reason: always_apply
+
+inactive: []
+
