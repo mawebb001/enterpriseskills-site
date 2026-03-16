@@ -1,5 +1,7 @@
 # Enterprise Skills - Landing Page & License Server
 
+Official website for Enterprise Skills at `enterpriseskills.ai`.
+
 Next.js landing page with Stripe checkout and Supabase license key management for the Enterprise Skills platform.
 
 ## Stack
